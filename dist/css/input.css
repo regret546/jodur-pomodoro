@@ -1,0 +1,24 @@
+@import url("https://fonts.googleapis.com/css2?family=Cantarell:ital,wght@0,400;0,700;1,400;1,700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Mohave:ital,wght@0,300..700;1,300..700&family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Oxygen:wght@300;400;700&family=Quicksand:wght@300..700&family=Roboto:ital,wght@0,100..900;1,100..900&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap");
+@import "tailwindcss";
+
+@theme {
+  /*   Breakpoints */
+  --breakpoint-xs: 23.438rem; /* 375px */
+  --breakpoint-m: 48rem; /* 768px */
+  --breakpoint-1xl: 56.25rem; /* 900px */
+  --breakpoint-2xl: 75rem; /* 1200px */
+  --breakpoint-3xl: 93.75rem; /* 1500px */
+
+  /* Colors */
+  --color-brand-background: hsl(0, 0%, 7%);
+  --color-brand-box-background: hsl(0, 0%, 11%);
+  --color-brand-text: hsl(269, 92%, 95%);
+  --color-brand-btn: hsl(272, 100%, 85%);
+}
+
+@layer base {
+  html {
+    font-family: Quicksand, -apple-system, BlinkMacSystemFont, Roboto, Oxygen,
+      Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  }
+}
