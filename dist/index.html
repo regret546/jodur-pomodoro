@@ -4,31 +4,62 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="output.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css"
+    />
     <title>JODUR Pomodoro</title>
   </head>
   <body class="bg-brand-background h-[100vh] grid">
     <section class="text-brand-text">
       <div class="header mt-[6rem] text-center">
-        <h1 class="font-bold text-2xl">Welcome to JODUR Pomodoro</h1>
+        <h1 class="font-bold text-2xl 1xl:text-5xl">
+          Welcome to JODUR's Pomodoro
+        </h1>
       </div>
       <div class="main mt-4 grid justify-items-center">
         <div
-          class="w-max grid justify-items-center gap-6 bg-brand-box-background p-4 text-center"
+          class="w-max 1xl:w-[500px] grid justify-items-center gap-6 bg-brand-box-background p-4 text-center"
         >
           <ul class="flex gap-2 font-semibold">
-            <li>Work</li>
-            <li>ShortBreak</li>
-            <li>LongBreak</li>
+            <li
+              class="cursor-pointer hover:bg-brand-btn/40 transition-colors duration-300 px-2 py-1 rounded-full"
+              onclick="renderTimer('25:00')"
+            >
+              Work
+            </li>
+            <li
+              class="cursor-pointer hover:bg-brand-btn/40 transition-colors duration-300 px-2 py-1 rounded-full"
+              onclick="renderTimer('5:00')"
+            >
+              ShortBreak
+            </li>
+            <li
+              class="cursor-pointer hover:bg-brand-btn/40 transition-colors duration-300 px-2 py-1 rounded-full"
+              onclick="renderTimer('15:00')"
+            >
+              LongBreak
+            </li>
           </ul>
           <div class="time font-bold text-4xl" id="timer">
-            <p>25:00</p>
+            <p id="displayTime">25:00</p>
           </div>
-          <button class="bg-brand-btn px-6 py-2 w-[50%]" id="startButton">
-            Start
-          </button>
+          <div class="relative w-full">
+            <button
+              class="cursor-pointer bg-brand-btn/70 border-t-2 border-r-2 border-l-2 border-b-5 border-brand-text text-brand-text font-semibold px-5 py-2 1xl:px-8 rounded-lg hover:bg-brand-btn/40 transition-colors duration-300"
+              id="startButton"
+            >
+              Start
+            </button>
+
+            <i
+              class="fa-solid fa-rotate-right cursor-pointer absolute top-1/2 -translate-y-1/2 right-[4.5rem]"
+            ></i>
+          </div>
         </div>
       </div>
     </section>
   </body>
-  <script src="./js/script.js"></script>
+  <script src="./js/pomodoro.js"></script>
+  <script src="./js/helpers.js"></script>
 </html>
