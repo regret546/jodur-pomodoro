@@ -1,7 +1,19 @@
-# Use the index inside /dist as the default
+# Enable rewrite engine
+
+RewriteEngine On
+
+# Serve dist/index.html as the homepage
+
 DirectoryIndex dist/index.html
 
-# Redirect everything to /dist (optional if you want clean root URLs)
-RewriteEngine On
+# Redirect all requests to the dist folder if they are not already there
+
 RewriteCond %{REQUEST_URI} !^/dist/
-RewriteRule ^(.*)$ dist/$1 [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.\*)$ dist/$1 [L]
+
+# Optional: prevent direct access to the dist folder in URL
+
+RewriteCond %{THE*REQUEST} /dist/([^\s?]*) [NC]
+RewriteRule ^dist/(.\_)$ /$1 [L,R=301]
