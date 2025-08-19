@@ -1,0 +1,7 @@
+# Use the index inside /dist as the default
+DirectoryIndex dist/index.html
+
+# Redirect everything to /dist (optional if you want clean root URLs)
+RewriteEngine On
+RewriteCond %{REQUEST_URI} !^/dist/
+RewriteRule ^(.*)$ dist/$1 [L]

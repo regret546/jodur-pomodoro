@@ -11,25 +11,40 @@ let pauseTime;
 startBtn.addEventListener("click", function (e) {
   if (!pause) {
     startTimer();
-    startBtn.textContent = "Pause";
+    pauseAndPlay();
     pause = true;
     lottieAnimate(true);
   } else {
     clearTimeInterval(timer);
     lottieAnimate(false);
-    startBtn.textContent = "Start";
+    pauseAndPlay();
     pause = false;
   }
 });
 
+// toggle play / pause
+function pauseAndPlay() {
+  console.log("puaseAndPlay");
+  const icon = startBtn.querySelector("i");
+  if (icon.classList.contains("fa-play")) {
+    icon.classList.remove("fa-play");
+    icon.classList.add("fa-pause");
+  } else {
+    icon.classList.remove("fa-pause");
+    icon.classList.add("fa-play");
+  }
+}
+
 // Reset
 resetBtn.addEventListener("click", function () {
-  resetBtn.classList.add("rotate");
-  clearTimeInterval();
-  renderTimer("25:00");
-  setTimeout(() => {
-    resetBtn.classList.remove("rotate");
-  }, 500);
+  if (pause) {
+    resetBtn.classList.add("rotate");
+    clearTimeInterval();
+    renderTimer("25:00");
+    setTimeout(() => {
+      resetBtn.classList.remove("rotate");
+    }, 300);
+  }
 });
 
 // Starts the countdown timer and stops when time runs out
@@ -57,7 +72,7 @@ function renderTimer(timeInterval) {
   lottieAnimate(false);
   timerElement.textContent = timeInterval;
   let minutes = parseInt(timeInterval.split(":")[0], 10);
-  startBtn.textContent = "Start";
+  pauseAndPlay();
   pause = false;
   setTime(minutes);
   clearTimeInterval();
@@ -77,7 +92,6 @@ function updateDisplay() {
 //Pause time
 
 function getPauseTime() {
-  /* console.log(timerElement.textContent.trim()); */
   clearTimeInterval();
 }
 

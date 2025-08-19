@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="dist/output.css" />
+    <link rel="stylesheet" href="../dist/output.css" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css"
@@ -14,14 +14,16 @@
     />
     <title>JODUR Pomodoro</title>
   </head>
-  <body class="bg-brand-background h-[100vh] grid">
-    <section class="text-brand-text text-[1rem] grid h-auto">
+  <body class="bg-brand-background grid justify-center">
+    <section
+      class="text-brand-text text-[1rem] grid h-[min-content] grid-rows-[min-content_min-content]"
+    >
       <article
         clock
-        class="font-extrabold grid mt-4 gap-2 justify-center h-auto"
+        class="font-extrabold grid mt-4 gap-2 grid-rows-[min-content]"
       >
         <h2 class="text-center text-3xl 1xl:text-5xl">World Clock</h2>
-        <div class="flex gap-7 text-[1rem] 1xl:text-3xl">
+        <div class="flex gap-7 text-[1rem] 1xl:text-3xl mt-4">
           <ul>
             <li class="flex items-center w-[170px] 1xl:w-[350px]">
               <svg
@@ -289,7 +291,10 @@
         </div>
         <div></div>
       </article>
-      <article pomodoro class="grid relative h-min -mt-[15rem] 1xl:-mt-[10rem]">
+      <article
+        pomodoro
+        class="grid h-[min-content] grid-rows-[min-content_min-content]"
+      >
         <div class="header mt-[6rem] text-center">
           <h1 class="font-bold text-2xl 1xl:text-6xl">Pomodoro</h1>
         </div>
@@ -344,22 +349,27 @@
                 class="cursor-pointer bg-brand-btn/70 border-t-2 border-r-2 1xl:border-r-4 border-l-2 1xl:border-l-4 border-b-5 1xl:border-b-6 border-brand-text text-brand-text font-semibold px-5 py-2 1xl:px-10 1xl:py-4 rounded-lg hover:bg-brand-btn/40 transition-colors duration-300"
                 id="startButton"
               >
-                Start
+                <i class="fa-solid fa-play"></i>
               </button>
 
-              <i
-                class="fa-solid text-[1.5rem] fa-rotate-right cursor-pointer absolute top-1/2 -translate-y-1/2 right-[4rem] 1xl:right-[8rem]"
-                id="resetButton"
-              ></i>
+              <div
+                class="text-[1.5rem] absolute top-1/2 -translate-y-1/2 right-[3rem] 1xl:right-[9rem]"
+              >
+                <i class="fa-solid fa-gear cursor-not-allowed"></i>
+                <i
+                  class="fa-solid fa-rotate-right cursor-pointer"
+                  id="resetButton"
+                ></i>
+              </div>
             </div>
           </div>
         </div>
       </article>
     </section>
   </body>
-  <script src="/dist/js/pomodoro.js"></script>
-  <script src="/dist/js/clocks.js"></script>
-  <script src="/dist/js/helpers.js"></script>
+  <script src="../dist/js/pomodoro.js"></script>
+  <script src="../dist/js/clocks.js"></script>
+  <script src="../dist/js/helpers.js"></script>
   <script
     src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.6.2/dist/dotlottie-wc.js"
     type="module"
