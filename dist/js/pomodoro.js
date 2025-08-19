@@ -1,5 +1,6 @@
 const timerElement = document.getElementById("timer");
 const startBtn = document.querySelector("#startButton");
+const icon = startBtn.querySelector("i");
 const resetBtn = document.querySelector("#resetButton");
 let audio = new Audio("./audio/berebere.mp3");
 let timeLeft = 0;
@@ -24,14 +25,14 @@ startBtn.addEventListener("click", function (e) {
 
 // toggle play / pause
 function pauseAndPlay() {
-  console.log("puaseAndPlay");
-  const icon = startBtn.querySelector("i");
   if (icon.classList.contains("fa-play")) {
     icon.classList.remove("fa-play");
     icon.classList.add("fa-pause");
+    console.log("if");
   } else {
     icon.classList.remove("fa-pause");
     icon.classList.add("fa-play");
+    console.log("else");
   }
 }
 
@@ -72,10 +73,11 @@ function renderTimer(timeInterval) {
   lottieAnimate(false);
   timerElement.textContent = timeInterval;
   let minutes = parseInt(timeInterval.split(":")[0], 10);
-  pauseAndPlay();
   pause = false;
   setTime(minutes);
   clearTimeInterval();
+  icon.classList.remove("fa-pause");
+  icon.classList.add("fa-play");
 }
 
 // Update time
