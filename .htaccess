@@ -17,3 +17,5 @@ RewriteRule ^(.\*)$ dist/$1 [L]
 
 RewriteCond %{THE*REQUEST} /dist/([^\s?]*) [NC]
 RewriteRule ^dist/(.\_)$ /$1 [L,R=301]
+
+.env
