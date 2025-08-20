@@ -1,4 +1,4 @@
-const timerElement = document.getElementById("timer");
+const timerElement = document.querySelector("#timer");
 const startBtn = document.querySelector("#startButton");
 const icon = startBtn.querySelector("i");
 const resetBtn = document.querySelector("#resetButton");
@@ -28,11 +28,9 @@ function pauseAndPlay() {
   if (icon.classList.contains("fa-play")) {
     icon.classList.remove("fa-play");
     icon.classList.add("fa-pause");
-    console.log("if");
   } else {
     icon.classList.remove("fa-pause");
     icon.classList.add("fa-play");
-    console.log("else");
   }
 }
 
@@ -89,6 +87,7 @@ function updateDisplay() {
     "0"
   )}`;
   timerElement.textContent = currentTime;
+  document.title = currentTime;
 }
 
 //Pause time
