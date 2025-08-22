@@ -21,11 +21,20 @@
     font-family: "Space Grotesk", sans-serif;
     letter-spacing: 0.1em;
   }
+  input,
+  textarea,
+  select {
+    @apply focus:outline-none focus:ring-0 focus:border-transparent;
+  }
 }
 
 @layer utilities {
   .rotate {
     transform: rotate(360deg);
     transition: transform 0.5s ease;
+  }
+  .swal2-popup {
+    background-color: theme("colors.brand.box-background") !important;
+    color: theme("colors.brand.text") !important;
   }
 }

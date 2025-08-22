@@ -12,6 +12,7 @@
   "description": "",
   "dependencies": {
     "@tailwindcss/cli": "^4.1.11",
+    "sweetalert2": "^11.22.4",
     "tailwindcss": "^4.1.11"
   }
 }

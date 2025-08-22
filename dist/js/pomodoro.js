@@ -1,3 +1,4 @@
+const settingsBtn = document.querySelector("#gearIcon");
 const timerElement = document.querySelector("#timer");
 const startBtn = document.querySelector("#startButton");
 const icon = startBtn.querySelector("i");
@@ -8,6 +9,14 @@ let timer = null;
 let pause = false;
 let showingFirst = true;
 let pauseTime;
+
+let pomoSettings = {
+  work: "25:00",
+  shortbreak: "1:00",
+  longbreak: "15:00",
+};
+
+let activeMode = "work";
 
 startBtn.addEventListener("click", function (e) {
   if (!pause) {
@@ -39,7 +48,7 @@ resetBtn.addEventListener("click", function () {
   if (pause) {
     resetBtn.classList.add("rotate");
     clearTimeInterval();
-    renderTimer("25:00");
+    renderTimer("work");
     setTimeout(() => {
       resetBtn.classList.remove("rotate");
     }, 300);
@@ -55,6 +64,7 @@ function startTimer() {
         updateDisplay();
       } else {
         clearTimeInterval();
+        renderTimer("work");
         playAlarm();
       }
     }, 1000);
@@ -67,10 +77,11 @@ function clearTimeInterval() {
 }
 
 //Update displayTime
-function renderTimer(timeInterval) {
+function renderTimer(mode) {
+  activeMode = mode;
   lottieAnimate(false);
-  timerElement.textContent = timeInterval;
-  let minutes = parseInt(timeInterval.split(":")[0], 10);
+  timerElement.textContent = pomoSettings[mode];
+  let minutes = parseInt(pomoSettings[mode].split(":")[0], 10);
   pause = false;
   setTime(minutes);
   clearTimeInterval();

@@ -303,20 +303,23 @@
           >
             <ul class="flex gap-2 text-[1rem] 1xl:text-2xl font-semibold">
               <li
+                work
                 class="cursor-pointer hover:bg-brand-btn/40 transition-colors duration-300 px-2 py-1 rounded-full"
-                onclick="renderTimer('25:00')"
+                onclick="renderTimer('work')"
               >
                 Work
               </li>
               <li
+                short-break
                 class="cursor-pointer hover:bg-brand-btn/40 transition-colors duration-300 px-2 py-1 rounded-full"
-                onclick="renderTimer('05:00')"
+                onclick="renderTimer('shortbreak')"
               >
                 ShortBreak
               </li>
               <li
+                long-break
                 class="cursor-pointer hover:bg-brand-btn/40 transition-colors duration-300 px-2 py-1 rounded-full"
-                onclick="renderTimer('15:00')"
+                onclick="renderTimer('longbreak')"
               >
                 LongBreak
               </li>
@@ -354,7 +357,7 @@
               <div
                 class="text-[1.5rem] absolute top-1/2 -translate-y-1/2 right-[3rem] 1xl:right-[9rem]"
               >
-                <i class="fa-solid fa-gear cursor-not-allowed"></i>
+                <i class="fa-solid fa-gear cursor-pointer" id="gearIcon"></i>
                 <i
                   class="fa-solid fa-rotate-right cursor-pointer"
                   id="resetButton"
@@ -364,8 +367,10 @@
           </div>
         </div>
       </article>
+      <!-- For modal testing -->
     </section>
   </body>
+  <script type="module" src="../dist//js/pomoSettings.js"></script>
   <script src="../dist/js/pomodoro.js"></script>
   <script src="../dist/js/clocks.js"></script>
   <script src="../dist/js/helpers.js"></script>
