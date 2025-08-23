@@ -9,14 +9,13 @@ let timer = null;
 let pause = false;
 let showingFirst = true;
 let pauseTime;
+let activeMode = "work";
 
 let pomoSettings = {
   work: "25:00",
-  shortbreak: "1:00",
+  shortbreak: "5:00",
   longbreak: "15:00",
 };
-
-let activeMode = "work";
 
 startBtn.addEventListener("click", function (e) {
   if (!pause) {
@@ -48,10 +47,10 @@ resetBtn.addEventListener("click", function () {
   if (pause) {
     resetBtn.classList.add("rotate");
     clearTimeInterval();
-    renderTimer("work");
     setTimeout(() => {
       resetBtn.classList.remove("rotate");
     }, 300);
+    renderTimer("work");
   }
 });
 
@@ -87,6 +86,14 @@ function renderTimer(mode) {
   clearTimeInterval();
   icon.classList.remove("fa-pause");
   icon.classList.add("fa-play");
+
+  // 🔹 Remove highlight from all li's
+  document.querySelectorAll("#timer-modes li").forEach((li) => {
+    li.classList.remove("bg-brand-btn/40");
+  });
+
+  // 🔹 Add highlight to the clicked one
+  document.querySelector(`li[${mode}]`).classList.add("bg-brand-btn/40");
 }
 
 // Update time

@@ -301,7 +301,10 @@
           <div
             class="w-max 1xl:w-[600px] grid justify-items-center gap-4 bg-brand-box-background p-4 text-center"
           >
-            <ul class="flex gap-2 text-[1rem] 1xl:text-2xl font-semibold">
+            <ul
+              id="timer-modes"
+              class="flex gap-2 text-[1rem] 1xl:text-2xl font-semibold"
+            >
               <li
                 work
                 class="cursor-pointer hover:bg-brand-btn/40 transition-colors duration-300 px-2 py-1 rounded-full"
@@ -310,14 +313,14 @@
                 Work
               </li>
               <li
-                short-break
+                shortbreak
                 class="cursor-pointer hover:bg-brand-btn/40 transition-colors duration-300 px-2 py-1 rounded-full"
                 onclick="renderTimer('shortbreak')"
               >
                 ShortBreak
               </li>
               <li
-                long-break
+                longbreak
                 class="cursor-pointer hover:bg-brand-btn/40 transition-colors duration-300 px-2 py-1 rounded-full"
                 onclick="renderTimer('longbreak')"
               >
