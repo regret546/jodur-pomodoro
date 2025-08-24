@@ -3,13 +3,14 @@ const timerElement = document.querySelector("#timer");
 const startBtn = document.querySelector("#startButton");
 const icon = startBtn.querySelector("i");
 const resetBtn = document.querySelector("#resetButton");
-let audio = new Audio("./audio/berebere.mp3");
+
 let timeLeft = 0;
 let timer = null;
 let pause = false;
 let showingFirst = true;
-let pauseTime;
 let activeMode = "work";
+let audio = "default";
+let audioRepeatCount = 1;
 
 let pomoSettings = {
   work: "25:00",
@@ -17,7 +18,48 @@ let pomoSettings = {
   longbreak: "15:00",
 };
 
-startBtn.addEventListener("click", function (e) {
+let pomoAudios = {
+  default: "berebere.mp3",
+  loudAlarm: "loudAlarm.mp3",
+  digitalAlarm: "digitalAlarm.mp3",
+  iphoneAlarm: "iphoneAlarm.mp3",
+};
+
+let currentAlarm;
+
+// -------------------------
+// Notifications + Audio
+// -------------------------
+function notifyUser(title, body, soundKey, repeat = 1) {
+  // 1. Desktop Notification
+  if (Notification.permission === "granted") {
+    new Notification(title, { body });
+  } else if (Notification.permission !== "denied") {
+    Notification.requestPermission();
+  }
+
+  // 2. Audio Alarm
+  playAlarm(soundKey, repeat);
+
+  // 3. Title flash fallback
+  const oldTitle = document.title;
+  let flash = true;
+  const titleInterval = setInterval(() => {
+    document.title = flash ? `⏰ ${title}` : oldTitle;
+    flash = !flash;
+  }, 1000);
+
+  // stop flashing after 10s
+  setTimeout(() => {
+    clearInterval(titleInterval);
+    document.title = oldTitle;
+  }, 10000);
+}
+
+// -------------------------
+// Timer Controls
+// -------------------------
+startBtn.addEventListener("click", function () {
   if (!pause) {
     startTimer();
     pauseAndPlay();
@@ -33,13 +75,8 @@ startBtn.addEventListener("click", function (e) {
 
 // toggle play / pause
 function pauseAndPlay() {
-  if (icon.classList.contains("fa-play")) {
-    icon.classList.remove("fa-play");
-    icon.classList.add("fa-pause");
-  } else {
-    icon.classList.remove("fa-pause");
-    icon.classList.add("fa-play");
-  }
+  icon.classList.toggle("fa-play");
+  icon.classList.toggle("fa-pause");
 }
 
 // Reset
@@ -47,14 +84,12 @@ resetBtn.addEventListener("click", function () {
   if (pause) {
     resetBtn.classList.add("rotate");
     clearTimeInterval();
-    setTimeout(() => {
-      resetBtn.classList.remove("rotate");
-    }, 300);
+    setTimeout(() => resetBtn.classList.remove("rotate"), 300);
     renderTimer("work");
   }
 });
 
-// Starts the countdown timer and stops when time runs out
+// Starts the countdown timer
 function startTimer() {
   if (!timer && timeLeft > 0) {
     timer = setInterval(() => {
@@ -64,7 +99,9 @@ function startTimer() {
       } else {
         clearTimeInterval();
         renderTimer("work");
-        playAlarm();
+
+        // 🔹 Use unified notifier here
+        notifyUser("Time's up!", "Take a break 🎉", audio, audioRepeatCount);
       }
     }, 1000);
   }
@@ -87,45 +124,63 @@ function renderTimer(mode) {
   icon.classList.remove("fa-pause");
   icon.classList.add("fa-play");
 
-  // 🔹 Remove highlight from all li's
+  // Remove highlight from all li's
   document.querySelectorAll("#timer-modes li").forEach((li) => {
     li.classList.remove("bg-brand-btn/40");
   });
 
-  // 🔹 Add highlight to the clicked one
+  // Add highlight to the clicked one
   document.querySelector(`li[${mode}]`).classList.add("bg-brand-btn/40");
 }
 
-// Update time
 function updateDisplay() {
   const minutes = Math.floor(timeLeft / 60);
   const seconds = timeLeft % 60;
-  currentTime = `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(
-    2,
-    "0"
-  )}`;
+  const currentTime = `${String(minutes).padStart(2, "0")}:${String(
+    seconds
+  ).padStart(2, "0")}`;
   timerElement.textContent = currentTime;
-  document.title = currentTime;
+  document.title = `${capitalizeFirstLetter(activeMode)}: ${currentTime}`;
 }
 
-//Pause time
-
-function getPauseTime() {
-  clearTimeInterval();
-}
-
-//Set time, depends on intervals
+//Set time
 function setTime(time = 25) {
   timeLeft = time * 60;
 }
 
-function playAlarm() {
-  audio.play();
+// -------------------------
+// Audio Handling
+// -------------------------
+function stopCurrent() {
+  if (currentAlarm) {
+    currentAlarm.onended = null;
+    currentAlarm.pause();
+    currentAlarm.currentTime = 0;
+    currentAlarm = null;
+  }
 }
 
-function stopAudio() {
-  audio.pause();
-  audio.currentTime = 0;
+function playAlarm(audioKey, repeatCount = 1) {
+  stopCurrent();
+  const soundFile = `./audio/${pomoAudios[audioKey]}`;
+  const audioEl = new Audio(soundFile);
+  let playsDone = 0;
+
+  audioEl.onended = () => {
+    playsDone++;
+    if (playsDone < repeatCount) {
+      audioEl.currentTime = 0;
+      audioEl.play();
+    } else {
+      audioEl.onended = null;
+      currentAlarm = null;
+    }
+  };
+
+  currentAlarm = audioEl;
+  audioEl.play().catch((err) => {
+    console.log("Audio blocked by browser:", err);
+  });
 }
 
 //For lottie's animation
@@ -140,5 +195,12 @@ function lottieAnimate(bool) {
   }
   showingFirst = !showingFirst;
 }
+
+// Request Notification Permission on Page Load
+document.addEventListener("DOMContentLoaded", () => {
+  if ("Notification" in window && Notification.permission === "default") {
+    Notification.requestPermission();
+  }
+});
 
 setTime();

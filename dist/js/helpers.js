@@ -11,3 +11,7 @@ function inspectAndDie(value) {
   console.dir(value, { depth: null });
   throw new Error("Execution stopped after inspectAndDie()");
 }
+
+function capitalizeFirstLetter(val) {
+  return String(val).charAt(0).toUpperCase() + String(val).slice(1);
+}
