@@ -162,7 +162,7 @@ function stopCurrent() {
 
 function playAlarm(audioKey, repeatCount = 1) {
   stopCurrent();
-  const soundFile = `../dist/audio/${pomoAudios[audioKey]}`;
+  const soundFile = `../../dist/audio/${pomoAudios[audioKey]}`;
   const audioEl = new Audio(soundFile);
   let playsDone = 0;
 
