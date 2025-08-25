@@ -92,6 +92,28 @@ resetBtn.addEventListener("click", function () {
 // Starts the countdown timer
 function startTimer() {
   if (!timer && timeLeft > 0) {
+    // Mark the "finish time" in ms
+    const endTime = Date.now() + timeLeft * 1000;
+
+    timer = setInterval(() => {
+      const now = Date.now();
+      // Recalculate remaining seconds
+      timeLeft = Math.max(0, Math.round((endTime - now) / 1000));
+
+      updateDisplay();
+
+      if (timeLeft <= 0) {
+        clearTimeInterval();
+        renderTimer("work");
+
+        notifyUser("Time's up!", "Take a break 🎉", audio, audioRepeatCount);
+      }
+    }, 1000);
+  }
+}
+
+/* function startTimer() {
+  if (!timer && timeLeft > 0) {
     timer = setInterval(() => {
       if (timeLeft > 0) {
         timeLeft--;
@@ -105,7 +127,7 @@ function startTimer() {
       }
     }, 1000);
   }
-}
+} */
 
 function clearTimeInterval() {
   clearInterval(timer);
