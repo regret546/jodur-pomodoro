@@ -3,6 +3,7 @@ const timerElement = document.querySelector("#timer");
 const startBtn = document.querySelector("#startButton");
 const icon = startBtn.querySelector("i");
 const resetBtn = document.querySelector("#resetButton");
+const pomoBackground = document.querySelector("#pomoBg");
 
 let timeLeft = 0;
 let timer = null;
@@ -105,29 +106,11 @@ function startTimer() {
       if (timeLeft <= 0) {
         clearTimeInterval();
         renderTimer("work");
-
         notifyUser("Time's up!", "Take a break 🎉", audio, audioRepeatCount);
       }
     }, 1000);
   }
 }
-
-/* function startTimer() {
-  if (!timer && timeLeft > 0) {
-    timer = setInterval(() => {
-      if (timeLeft > 0) {
-        timeLeft--;
-        updateDisplay();
-      } else {
-        clearTimeInterval();
-        renderTimer("work");
-
-        // 🔹 Use unified notifier here
-        notifyUser("Time's up!", "Take a break 🎉", audio, audioRepeatCount);
-      }
-    }, 1000);
-  }
-} */
 
 function clearTimeInterval() {
   clearInterval(timer);
@@ -145,6 +128,7 @@ function renderTimer(mode) {
   clearTimeInterval();
   icon.classList.remove("fa-pause");
   icon.classList.add("fa-play");
+  changeBackgroundColor(mode);
 
   // Remove highlight from all li's
   document.querySelectorAll("#timer-modes li").forEach((li) => {
@@ -153,6 +137,27 @@ function renderTimer(mode) {
 
   // Add highlight to the clicked one
   document.querySelector(`li[${mode}]`).classList.add("bg-brand-btn/40");
+}
+
+function changeBackgroundColor(mode) {
+  const removeBg = () => {
+    pomoBackground.classList.forEach((c) => {
+      if (c.startsWith("bg-") || c.startsWith("bg[")) {
+        pomoBackground.classList.remove(c);
+      }
+    });
+  };
+
+  if (mode === "work") {
+    removeBg();
+    pomoBackground.classList.add("bg-brand-box-background");
+  } else if (mode === "shortbreak") {
+    removeBg();
+    pomoBackground.classList.add("bg-[#1B5E20]");
+  } else {
+    removeBg();
+    pomoBackground.classList.add("bg-[#001F4D]");
+  }
 }
 
 function updateDisplay() {
