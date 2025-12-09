@@ -4,6 +4,8 @@ const startBtn = document.querySelector("#startButton");
 const icon = startBtn.querySelector("i");
 const resetBtn = document.querySelector("#resetButton");
 const pomoBackground = document.querySelector("#pomoBg");
+const lottie1 = document.querySelector("#lottie1");
+const lottie2 = document.querySelector("#lottie2");
 
 let timeLeft = 0;
 let timer = null;
@@ -189,7 +191,7 @@ function stopCurrent() {
 
 function playAlarm(audioKey, repeatCount = 1) {
   stopCurrent();
-  const soundFile = `../../dist/audio/${pomoAudios[audioKey]}`;
+  const soundFile = `./audio/${pomoAudios[audioKey]}`;
   const audioEl = new Audio(soundFile);
   let playsDone = 0;
 
@@ -212,6 +214,7 @@ function playAlarm(audioKey, repeatCount = 1) {
 
 //For lottie's animation
 function lottieAnimate(bool) {
+  if (!lottie1 || !lottie2) return; // Guard against missing elements
   showingFirst = bool;
   if (showingFirst) {
     lottie1.classList.replace("translate-x-0", "-translate-x-full");

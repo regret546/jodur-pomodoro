@@ -37,4 +37,8 @@
     background-color: theme("colors.brand.box-background") !important;
     color: theme("colors.brand.text") !important;
   }
+  .touch-manipulation {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
 }

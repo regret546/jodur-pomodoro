@@ -3,15 +3,32 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="../dist/output.css" />
+    <!-- Performance optimizations -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://lottie.host" />
+    <link rel="preconnect" href="https://unpkg.com" />
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com" />
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+    <link rel="dns-prefetch" href="https://lottie.host" />
+    <link rel="dns-prefetch" href="https://unpkg.com" />
+    
+    <link rel="stylesheet" href="./output.css" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css"
+      media="print"
+      onload="this.media='all'"
     />
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" /></noscript>
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/6.6.6/css/flag-icons.min.css"
+      media="print"
+      onload="this.media='all'"
     />
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/6.6.6/css/flag-icons.min.css" /></noscript>
   </head>
   <body class="bg-brand-background grid justify-center">
     <section
@@ -19,14 +36,14 @@
     >
       <article
         clock
-        class="font-extrabold grid mt-4 gap-2 grid-rows-[min-content]"
+        class="font-extrabold grid mt-2 sm:mt-4 gap-2 grid-rows-[min-content] px-2 sm:px-0"
       >
-        <h2 class="text-center text-3xl 1xl:text-5xl">World Clock</h2>
-        <div class="flex gap-7 text-[1rem] 1xl:text-3xl mt-4">
-          <ul>
-            <li class="flex items-center w-[170px] 1xl:w-[350px]">
+        <h2 class="text-center text-2xl sm:text-3xl 1xl:text-5xl">World Clock</h2>
+        <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 1xl:gap-7 text-sm sm:text-base 1xl:text-3xl mt-2 sm:mt-4 justify-center items-center sm:items-start">
+          <ul class="w-full sm:w-auto">
+            <li class="flex items-center w-full sm:w-[170px] 1xl:w-[350px] justify-center sm:justify-start">
               <svg
-                class="mr-[2px]"
+                class="mr-1 sm:mr-[2px] flex-shrink-0 w-6 h-6 sm:w-8 sm:h-8"
                 xmlns="http://www.w3.org/2000/svg"
                 width="32"
                 height="32"
@@ -55,19 +72,19 @@
                   opacity=".2"
                 ></path>
               </svg>
-              <p class="inline-block">
+              <p class="inline-block text-sm sm:text-base">
                 DK:
                 <span
-                  class="time inline-block w-[70px] 1xl:w-[130px] mr-2"
+                  class="time inline-block w-[60px] sm:w-[70px] 1xl:w-[130px] mr-1 sm:mr-2"
                   id="time-denmark"
                 ></span
-                ><span class="ampm" id="ampm-denmark"></span>
+                ><span class="ampm text-xs sm:text-base" id="ampm-denmark"></span>
               </p>
             </li>
 
-            <li class="flex items-center w-[170px] 1xl:w-[350px]">
+            <li class="flex items-center w-full sm:w-[170px] 1xl:w-[350px] justify-center sm:justify-start mt-2 sm:mt-0">
               <svg
-                class="mr-[2px]"
+                class="mr-1 sm:mr-[2px] flex-shrink-0 w-6 h-6 sm:w-8 sm:h-8"
                 xmlns="http://www.w3.org/2000/svg"
                 width="32"
                 height="32"
@@ -97,21 +114,21 @@
                   opacity=".2"
                 ></path>
               </svg>
-              <p class="inline-block">
+              <p class="inline-block text-sm sm:text-base">
                 IN:
                 <span
-                  class="time inline-block w-[70px] 1xl:w-[130px] mr-2"
+                  class="time inline-block w-[60px] sm:w-[70px] 1xl:w-[130px] mr-1 sm:mr-2"
                   id="time-india"
                 ></span
-                ><span class="ampm" id="ampm-india"></span>
+                ><span class="ampm text-xs sm:text-base" id="ampm-india"></span>
               </p>
             </li>
           </ul>
 
-          <ul>
-            <li class="flex items-center w-[170px] 1xl:w-[350px]">
+          <ul class="w-full sm:w-auto">
+            <li class="flex items-center w-full sm:w-[170px] 1xl:w-[350px] justify-center sm:justify-start">
               <svg
-                class="mr-[2px]"
+                class="mr-1 sm:mr-[2px] flex-shrink-0 w-6 h-6 sm:w-8 sm:h-8"
                 xmlns="http://www.w3.org/2000/svg"
                 width="32"
                 height="32"
@@ -234,18 +251,18 @@
                   d="M13.539 14.744L14.13 14.315 13.399 14.315 13.173 13.619 12.947 14.315 12.216 14.315 12.808 14.744 12.582 15.44 13.173 15.01 13.765 15.44 13.539 14.744z"
                 ></path>
               </svg>
-              <p class="inline-block">
+              <p class="inline-block text-sm sm:text-base">
                 US:
                 <span
-                  class="time inline-block w-[70px] 1xl:w-[130px] mr-2"
+                  class="time inline-block w-[60px] sm:w-[70px] 1xl:w-[130px] mr-1 sm:mr-2"
                   id="time-us"
                 ></span
-                ><span class="ampm" id="ampm-us"></span>
+                ><span class="ampm text-xs sm:text-base" id="ampm-us"></span>
               </p>
             </li>
-            <li class="flex items-center w-[170px] 1xl:w-[350px]">
+            <li class="flex items-center w-full sm:w-[170px] 1xl:w-[350px] justify-center sm:justify-start mt-2 sm:mt-0">
               <svg
-                class="mr-[2px]"
+                class="mr-1 sm:mr-[2px] flex-shrink-0 w-6 h-6 sm:w-8 sm:h-8"
                 xmlns="http://www.w3.org/2000/svg"
                 width="32"
                 height="32"
@@ -277,13 +294,13 @@
                   fill="#f4d24b"
                 ></path>
               </svg>
-              <p class="inline-block">
+              <p class="inline-block text-sm sm:text-base">
                 PH:
                 <span
-                  class="time inline-block w-[70px] 1xl:w-[130px] mr-2"
+                  class="time inline-block w-[60px] sm:w-[70px] 1xl:w-[130px] mr-1 sm:mr-2"
                   id="time-ph"
                 ></span
-                ><span class="ampm" id="ampm-ph"></span>
+                ><span class="ampm text-xs sm:text-base" id="ampm-ph"></span>
               </p>
             </li>
           </ul>
@@ -292,46 +309,46 @@
       </article>
       <article
         pomodoro
-        class="grid h-[min-content] grid-rows-[min-content_min-content]"
+        class="grid h-[min-content] grid-rows-[min-content_min-content] px-2 sm:px-0"
       >
-        <div class="header mt-[6rem] text-center">
-          <h1 class="font-bold text-2xl 1xl:text-6xl">Pomodoro</h1>
+        <div class="header mt-4 sm:mt-8 1xl:mt-[6rem] text-center">
+          <h1 class="font-bold text-xl sm:text-2xl 1xl:text-6xl">Pomodoro</h1>
         </div>
-        <div class="main mt-4 grid justify-items-center">
+        <div class="main mt-2 sm:mt-4 grid justify-items-center">
           <div
-            class="w-max 1xl:w-[600px] grid justify-items-center gap-4 bg-brand-box-background p-4 text-center rounded-md transition-colors duration-300 ease-in-out"
+            class="w-full max-w-[95%] sm:w-max sm:max-w-none 1xl:w-[600px] grid justify-items-center gap-3 sm:gap-4 bg-brand-box-background p-3 sm:p-4 text-center rounded-md transition-colors duration-300 ease-in-out"
             id="pomoBg"
           >
             <ul
               id="timer-modes"
-              class="flex gap-2 text-[1rem] 1xl:text-2xl font-semibold"
+              class="flex gap-1 sm:gap-2 text-sm sm:text-base 1xl:text-2xl font-semibold flex-wrap justify-center"
             >
               <li
                 work
-                class="cursor-pointer hover:bg-brand-btn/40 transition-colors duration-300 px-2 py-1 rounded-full"
+                class="cursor-pointer hover:bg-brand-btn/40 active:bg-brand-btn/60 transition-colors duration-300 px-3 py-2 sm:px-2 sm:py-1 rounded-full touch-manipulation"
                 onclick="renderTimer('work')"
               >
                 Work
               </li>
               <li
                 shortbreak
-                class="cursor-pointer hover:bg-brand-btn/40 transition-colors duration-300 px-2 py-1 rounded-full"
+                class="cursor-pointer hover:bg-brand-btn/40 active:bg-brand-btn/60 transition-colors duration-300 px-3 py-2 sm:px-2 sm:py-1 rounded-full touch-manipulation"
                 onclick="renderTimer('shortbreak')"
               >
                 ShortBreak
               </li>
               <li
                 longbreak
-                class="cursor-pointer hover:bg-brand-btn/40 transition-colors duration-300 px-2 py-1 rounded-full"
+                class="cursor-pointer hover:bg-brand-btn/40 active:bg-brand-btn/60 transition-colors duration-300 px-3 py-2 sm:px-2 sm:py-1 rounded-full touch-manipulation"
                 onclick="renderTimer('longbreak')"
               >
                 LongBreak
               </li>
             </ul>
-            <div class="time font-bold text-4xl 1xl:text-6xl" id="timer">
+            <div class="time font-bold text-3xl sm:text-4xl 1xl:text-6xl" id="timer">
               <p id="displayTime">25:00</p>
             </div>
-            <div class="relative size-[100px] 1xl:size-[200px] overflow-hidden">
+            <div class="relative size-[80px] sm:size-[100px] 1xl:size-[200px] overflow-hidden">
               <!-- First Lottie -->
               <dotlottie-wc
                 id="lottie1"
@@ -350,21 +367,23 @@
                 loop
               ></dotlottie-wc>
             </div>
-            <div class="relative w-full">
+            <div class="relative w-full flex items-center justify-center gap-3 sm:gap-4">
               <button
-                class="cursor-pointer bg-brand-btn/70 border-t-2 border-r-2 1xl:border-r-4 border-l-2 1xl:border-l-4 border-b-5 1xl:border-b-6 border-brand-text text-brand-text font-semibold px-5 py-2 1xl:px-10 1xl:py-4 rounded-lg hover:bg-brand-btn/40 transition-colors duration-300"
+                class="cursor-pointer bg-brand-btn/70 border-t-2 border-r-2 1xl:border-r-4 border-l-2 1xl:border-l-4 border-b-5 1xl:border-b-6 border-brand-text text-brand-text font-semibold px-6 py-3 sm:px-5 sm:py-2 1xl:px-10 1xl:py-4 rounded-lg hover:bg-brand-btn/40 active:bg-brand-btn/50 transition-colors duration-300 touch-manipulation min-h-[44px] sm:min-h-0"
                 id="startButton"
+                aria-label="Start/Pause timer"
               >
-                <i class="fa-solid fa-play"></i>
+                <i class="fa-solid fa-play text-lg sm:text-base"></i>
               </button>
 
               <div
-                class="text-[1.5rem] absolute top-1/2 -translate-y-1/2 right-[3rem] 1xl:right-[9rem]"
+                class="flex gap-4 sm:gap-3 text-xl sm:text-lg 1xl:text-[1.5rem]"
               >
-                <i class="fa-solid fa-gear cursor-pointer" id="gearIcon"></i>
+                <i class="fa-solid fa-gear cursor-pointer hover:opacity-80 active:opacity-60 touch-manipulation min-w-[44px] sm:min-w-0 text-center" id="gearIcon" aria-label="Settings"></i>
                 <i
-                  class="fa-solid fa-rotate-right cursor-pointer"
+                  class="fa-solid fa-rotate-right cursor-pointer hover:opacity-80 active:opacity-60 touch-manipulation min-w-[44px] sm:min-w-0 text-center"
                   id="resetButton"
+                  aria-label="Reset timer"
                 ></i>
               </div>
             </div>
@@ -373,12 +392,13 @@
       </article>
     </section>
   </body>
-  <script type="module" src="../dist/js/pomoSettings.js"></script>
-  <script src="../dist/js/pomodoro.js"></script>
-  <script src="../dist/js/clocks.js"></script>
-  <script src="../dist/js/helpers.js"></script>
+  <script src="./js/helpers.js"></script>
+  <script src="./js/pomodoro.js" defer></script>
+  <script type="module" src="./js/pomoSettings.js" defer></script>
+  <script src="./js/clocks.js" defer></script>
   <script
     src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.6.2/dist/dotlottie-wc.js"
     type="module"
+    defer
   ></script>
 </html>
