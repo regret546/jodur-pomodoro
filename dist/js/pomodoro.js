@@ -84,12 +84,10 @@ function pauseAndPlay() {
 
 // Reset
 resetBtn.addEventListener("click", function () {
-  if (pause) {
-    resetBtn.classList.add("rotate");
-    clearTimeInterval();
-    setTimeout(() => resetBtn.classList.remove("rotate"), 300);
-    renderTimer("work");
-  }
+  resetBtn.classList.add("rotate");
+  clearTimeInterval();
+  setTimeout(() => resetBtn.classList.remove("rotate"), 300);
+  renderTimer(activeMode);
 });
 
 // Starts the countdown timer
