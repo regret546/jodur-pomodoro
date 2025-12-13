@@ -41,4 +41,84 @@
     touch-action: manipulation;
     -webkit-tap-highlight-color: transparent;
   }
+  
+  /* SVG Optimization for faster rendering */
+  .svg-flag {
+    will-change: transform;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    contain: layout style paint;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+  }
+  
+  /* Mobile optimizations */
+  @media (max-width: 640px) {
+    body {
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    
+    /* Improve text readability on mobile */
+    * {
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+    }
+    
+    /* Better spacing for mobile */
+    article[clock] {
+      padding-left: 0.5rem;
+      padding-right: 0.5rem;
+    }
+    
+    article[pomodoro] {
+      padding-left: 0.5rem;
+      padding-right: 0.5rem;
+    }
+  }
+  
+  /* Prevent layout shifts during SVG load */
+  .svg-flag {
+    min-width: 1.5rem;
+    min-height: 1.5rem;
+  }
+  
+  /* Optimize Lottie animations */
+  dotlottie-wc {
+    will-change: transform;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
+  
+  /* Improve button touch targets on mobile */
+  @media (max-width: 640px) {
+    button,
+    [role="button"],
+    .cursor-pointer {
+      min-height: 44px;
+      min-width: 44px;
+    }
+    
+    /* Better spacing for mobile timer display */
+    #timer {
+      padding: 0.5rem 0;
+    }
+    
+    /* Improve readability */
+    .time {
+      font-weight: 700;
+      letter-spacing: 0.05em;
+    }
+  }
+  
+  /* Prevent text selection on buttons for better mobile UX */
+  button,
+  [role="button"],
+  .touch-manipulation {
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none;
+  }
 }

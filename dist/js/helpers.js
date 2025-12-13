@@ -15,3 +15,32 @@ function inspectAndDie(value) {
 function capitalizeFirstLetter(val) {
   return String(val).charAt(0).toUpperCase() + String(val).slice(1);
 }
+
+// Optimize SVG rendering on page load
+(function optimizeSVGRendering() {
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initSVGOptimization);
+  } else {
+    initSVGOptimization();
+  }
+
+  function initSVGOptimization() {
+    // Force GPU acceleration for SVGs
+    const svgs = document.querySelectorAll('.svg-flag');
+    svgs.forEach(svg => {
+      // Ensure SVGs are rendered with GPU acceleration
+      svg.style.transform = 'translateZ(0)';
+      svg.style.willChange = 'transform';
+      
+      // Mark as loaded to prevent layout shifts
+      svg.setAttribute('data-loaded', 'true');
+    });
+
+    // Optimize Lottie animations
+    const lottieElements = document.querySelectorAll('dotlottie-wc');
+    lottieElements.forEach(el => {
+      el.style.transform = 'translateZ(0)';
+      el.style.willChange = 'transform';
+    });
+  }
+})();

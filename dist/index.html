@@ -2,7 +2,9 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
     <!-- Performance optimizations -->
     <link rel="preconnect" href="https://cdnjs.cloudflare.com" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -39,15 +41,16 @@
         class="font-extrabold grid mt-2 sm:mt-4 gap-2 grid-rows-[min-content] px-2 sm:px-0"
       >
         <h2 class="text-center text-2xl sm:text-3xl 1xl:text-5xl">World Clock</h2>
-        <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 1xl:gap-7 text-sm sm:text-base 1xl:text-3xl mt-2 sm:mt-4 justify-center items-center sm:items-start">
+        <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 1xl:gap-7 text-sm sm:text-base 1xl:text-3xl mt-2 sm:mt-4 justify-center items-center sm:items-start px-2 sm:px-0">
           <ul class="w-full sm:w-auto">
             <li class="flex items-center w-full sm:w-[170px] 1xl:w-[350px] justify-center sm:justify-start">
               <svg
-                class="mr-1 sm:mr-[2px] flex-shrink-0 w-6 h-6 sm:w-8 sm:h-8"
+                class="mr-1 sm:mr-[2px] flex-shrink-0 w-6 h-6 sm:w-8 sm:h-8 svg-flag"
                 xmlns="http://www.w3.org/2000/svg"
                 width="32"
                 height="32"
                 viewBox="0 0 32 32"
+                aria-hidden="true"
               >
                 <rect
                   x="1"
@@ -84,11 +87,12 @@
 
             <li class="flex items-center w-full sm:w-[170px] 1xl:w-[350px] justify-center sm:justify-start mt-2 sm:mt-0">
               <svg
-                class="mr-1 sm:mr-[2px] flex-shrink-0 w-6 h-6 sm:w-8 sm:h-8"
+                class="mr-1 sm:mr-[2px] flex-shrink-0 w-6 h-6 sm:w-8 sm:h-8 svg-flag"
                 xmlns="http://www.w3.org/2000/svg"
                 width="32"
                 height="32"
                 viewBox="0 0 32 32"
+                aria-hidden="true"
               >
                 <path fill="#fff" d="M1 11H31V21H1z"></path>
                 <path
@@ -128,11 +132,12 @@
           <ul class="w-full sm:w-auto">
             <li class="flex items-center w-full sm:w-[170px] 1xl:w-[350px] justify-center sm:justify-start">
               <svg
-                class="mr-1 sm:mr-[2px] flex-shrink-0 w-6 h-6 sm:w-8 sm:h-8"
+                class="mr-1 sm:mr-[2px] flex-shrink-0 w-6 h-6 sm:w-8 sm:h-8 svg-flag"
                 xmlns="http://www.w3.org/2000/svg"
                 width="32"
                 height="32"
                 viewBox="0 0 32 32"
+                aria-hidden="true"
               >
                 <rect
                   x="1"
@@ -262,11 +267,12 @@
             </li>
             <li class="flex items-center w-full sm:w-[170px] 1xl:w-[350px] justify-center sm:justify-start mt-2 sm:mt-0">
               <svg
-                class="mr-1 sm:mr-[2px] flex-shrink-0 w-6 h-6 sm:w-8 sm:h-8"
+                class="mr-1 sm:mr-[2px] flex-shrink-0 w-6 h-6 sm:w-8 sm:h-8 svg-flag"
                 xmlns="http://www.w3.org/2000/svg"
                 width="32"
                 height="32"
                 viewBox="0 0 32 32"
+                aria-hidden="true"
               >
                 <path
                   d="M1,24c0,2.209,1.791,4,4,4H27c2.209,0,4-1.791,4-4V15H1v9Z"
@@ -325,29 +331,27 @@
             >
               <li
                 work
-                class="cursor-pointer hover:bg-brand-btn/40 active:bg-brand-btn/60 transition-colors duration-300 px-3 py-2 sm:px-2 sm:py-1 rounded-full touch-manipulation"
+                class="cursor-pointer hover:bg-brand-btn/40 active:bg-brand-btn/60 transition-colors duration-300 px-4 py-3 sm:px-2 sm:py-1 rounded-full touch-manipulation min-h-[44px] sm:min-h-0 flex items-center justify-center"
                 onclick="renderTimer('work')"
               >
                 Work
               </li>
               <li
                 shortbreak
-                class="cursor-pointer hover:bg-brand-btn/40 active:bg-brand-btn/60 transition-colors duration-300 px-3 py-2 sm:px-2 sm:py-1 rounded-full touch-manipulation"
+                class="cursor-pointer hover:bg-brand-btn/40 active:bg-brand-btn/60 transition-colors duration-300 px-4 py-3 sm:px-2 sm:py-1 rounded-full touch-manipulation min-h-[44px] sm:min-h-0 flex items-center justify-center"
                 onclick="renderTimer('shortbreak')"
               >
                 ShortBreak
               </li>
               <li
                 longbreak
-                class="cursor-pointer hover:bg-brand-btn/40 active:bg-brand-btn/60 transition-colors duration-300 px-3 py-2 sm:px-2 sm:py-1 rounded-full touch-manipulation"
+                class="cursor-pointer hover:bg-brand-btn/40 active:bg-brand-btn/60 transition-colors duration-300 px-4 py-3 sm:px-2 sm:py-1 rounded-full touch-manipulation min-h-[44px] sm:min-h-0 flex items-center justify-center"
                 onclick="renderTimer('longbreak')"
               >
                 LongBreak
               </li>
             </ul>
-            <div class="time font-bold text-3xl sm:text-4xl 1xl:text-6xl" id="timer">
-              <p id="displayTime">25:00</p>
-            </div>
+            <div class="time font-bold text-3xl sm:text-4xl 1xl:text-6xl min-h-[3rem] sm:min-h-0 flex items-center justify-center" id="timer">25:00</div>
             <div class="relative size-[80px] sm:size-[100px] 1xl:size-[200px] overflow-hidden">
               <!-- First Lottie -->
               <dotlottie-wc
@@ -369,7 +373,7 @@
             </div>
             <div class="relative w-full flex items-center justify-center gap-3 sm:gap-4">
               <button
-                class="cursor-pointer bg-brand-btn/70 border-t-2 border-r-2 1xl:border-r-4 border-l-2 1xl:border-l-4 border-b-5 1xl:border-b-6 border-brand-text text-brand-text font-semibold px-6 py-3 sm:px-5 sm:py-2 1xl:px-10 1xl:py-4 rounded-lg hover:bg-brand-btn/40 active:bg-brand-btn/50 transition-colors duration-300 touch-manipulation min-h-[44px] sm:min-h-0"
+                class="cursor-pointer bg-brand-btn/70 border-t-2 border-r-2 1xl:border-r-4 border-l-2 1xl:border-l-4 border-b-5 1xl:border-b-6 border-brand-text text-brand-text font-semibold px-6 py-3 sm:px-5 sm:py-2 1xl:px-10 1xl:py-4 rounded-lg hover:bg-brand-btn/40 active:bg-brand-btn/50 transition-colors duration-300 touch-manipulation min-h-[48px] min-w-[48px] sm:min-h-0 sm:min-w-0"
                 id="startButton"
                 aria-label="Start/Pause timer"
               >
@@ -379,9 +383,9 @@
               <div
                 class="flex gap-4 sm:gap-3 text-xl sm:text-lg 1xl:text-[1.5rem]"
               >
-                <i class="fa-solid fa-gear cursor-pointer hover:opacity-80 active:opacity-60 touch-manipulation min-w-[44px] sm:min-w-0 text-center" id="gearIcon" aria-label="Settings"></i>
+                <i class="fa-solid fa-gear cursor-pointer hover:opacity-80 active:opacity-60 touch-manipulation min-w-[48px] min-h-[48px] sm:min-w-0 sm:min-h-0 flex items-center justify-center" id="gearIcon" aria-label="Settings"></i>
                 <i
-                  class="fa-solid fa-rotate-right cursor-pointer hover:opacity-80 active:opacity-60 touch-manipulation min-w-[44px] sm:min-w-0 text-center"
+                  class="fa-solid fa-rotate-right cursor-pointer hover:opacity-80 active:opacity-60 touch-manipulation min-w-[48px] min-h-[48px] sm:min-w-0 sm:min-h-0 flex items-center justify-center"
                   id="resetButton"
                   aria-label="Reset timer"
                 ></i>
