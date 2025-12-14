@@ -17,9 +17,8 @@ function updateClock() {
     };
     const formatted = new Intl.DateTimeFormat("en-US", options).format(now);
 
-    const [time, ampm] = formatted.split(" "); // split into HH:MM:SS and AM/PM
-    document.getElementById("time-" + zone.id).textContent = time;
-    document.getElementById("ampm-" + zone.id).textContent = ampm;
+    // Display time and AM/PM together as one string
+    document.getElementById("time-" + zone.id).textContent = formatted;
   });
 }
 
