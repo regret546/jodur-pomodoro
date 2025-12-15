@@ -2,7 +2,10 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes"
+    />
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <!-- Performance optimizations -->
@@ -15,7 +18,7 @@
     <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
     <link rel="dns-prefetch" href="https://lottie.host" />
     <link rel="dns-prefetch" href="https://unpkg.com" />
-    
+
     <link rel="stylesheet" href="./output.css" />
     <link
       rel="stylesheet"
@@ -23,14 +26,22 @@
       media="print"
       onload="this.media='all'"
     />
-    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" /></noscript>
+    <noscript
+      ><link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css"
+    /></noscript>
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/6.6.6/css/flag-icons.min.css"
       media="print"
       onload="this.media='all'"
     />
-    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/6.6.6/css/flag-icons.min.css" /></noscript>
+    <noscript
+      ><link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/6.6.6/css/flag-icons.min.css"
+    /></noscript>
   </head>
   <body class="bg-brand-background grid justify-center">
     <section
@@ -40,10 +51,16 @@
         clock
         class="font-extrabold grid mt-2 sm:mt-4 gap-2 grid-rows-[min-content] px-2 sm:px-0"
       >
-        <h2 class="text-center text-2xl sm:text-3xl 1xl:text-5xl">World Clock</h2>
-        <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 1xl:gap-7 text-sm sm:text-base 1xl:text-3xl mt-2 sm:mt-4 justify-center items-center sm:items-start px-2 sm:px-0">
+        <h2 class="text-center text-2xl sm:text-3xl 1xl:text-6xl">
+          World Clock
+        </h2>
+        <div
+          class="flex flex-col sm:flex-row gap-3 sm:gap-4 1xl:gap-7 text-sm sm:text-base 1xl:text-4xl mt-2 sm:mt-4 justify-center items-center sm:items-start px-2 sm:px-0"
+        >
           <ul class="w-full sm:w-auto">
-            <li class="flex items-center w-full sm:w-[170px] 1xl:w-[350px] justify-center sm:justify-start">
+            <li
+              class="flex items-center w-full sm:w-[170px] 1xl:w-[350px] justify-center sm:justify-start"
+            >
               <svg
                 class="mr-1 sm:mr-[2px] flex-shrink-0 w-6 h-6 sm:w-8 sm:h-8 svg-flag"
                 xmlns="http://www.w3.org/2000/svg"
@@ -75,16 +92,20 @@
                   opacity=".2"
                 ></path>
               </svg>
-              <p class="inline-block text-sm sm:text-base">
+              <p
+                class="inline-block text-sm sm:text-base 1xl:text-2xl whitespace-nowrap"
+              >
                 DK:
                 <span
-                  class="time inline-block w-[80px] sm:w-[90px] 1xl:w-[150px]"
+                  class="time inline-block w-[80px] sm:w-[90px] 1xl:w-[200px]"
                   id="time-denmark"
                 ></span>
               </p>
             </li>
 
-            <li class="flex items-center w-full sm:w-[170px] 1xl:w-[350px] justify-center sm:justify-start mt-2 sm:mt-0">
+            <li
+              class="flex items-center w-full sm:w-[170px] 1xl:w-[350px] justify-center sm:justify-start mt-2 sm:mt-0"
+            >
               <svg
                 class="mr-1 sm:mr-[2px] flex-shrink-0 w-6 h-6 sm:w-8 sm:h-8 svg-flag"
                 xmlns="http://www.w3.org/2000/svg"
@@ -117,10 +138,12 @@
                   opacity=".2"
                 ></path>
               </svg>
-              <p class="inline-block text-sm sm:text-base">
+              <p
+                class="inline-block text-sm sm:text-base 1xl:text-2xl whitespace-nowrap"
+              >
                 IN:
                 <span
-                  class="time inline-block w-[80px] sm:w-[90px] 1xl:w-[150px]"
+                  class="time inline-block w-[80px] sm:w-[90px] 1xl:w-[200px]"
                   id="time-india"
                 ></span>
               </p>
@@ -128,7 +151,9 @@
           </ul>
 
           <ul class="w-full sm:w-auto">
-            <li class="flex items-center w-full sm:w-[170px] 1xl:w-[350px] justify-center sm:justify-start">
+            <li
+              class="flex items-center w-full sm:w-[170px] 1xl:w-[350px] justify-center sm:justify-start"
+            >
               <svg
                 class="mr-1 sm:mr-[2px] flex-shrink-0 w-6 h-6 sm:w-8 sm:h-8 svg-flag"
                 xmlns="http://www.w3.org/2000/svg"
@@ -254,15 +279,19 @@
                   d="M13.539 14.744L14.13 14.315 13.399 14.315 13.173 13.619 12.947 14.315 12.216 14.315 12.808 14.744 12.582 15.44 13.173 15.01 13.765 15.44 13.539 14.744z"
                 ></path>
               </svg>
-              <p class="inline-block text-sm sm:text-base">
+              <p
+                class="inline-block text-sm sm:text-base 1xl:text-2xl whitespace-nowrap"
+              >
                 US:
                 <span
-                  class="time inline-block w-[80px] sm:w-[90px] 1xl:w-[150px]"
+                  class="time inline-block w-[80px] sm:w-[90px] 1xl:w-[200px]"
                   id="time-us"
                 ></span>
               </p>
             </li>
-            <li class="flex items-center w-full sm:w-[170px] 1xl:w-[350px] justify-center sm:justify-start mt-2 sm:mt-0">
+            <li
+              class="flex items-center w-full sm:w-[170px] 1xl:w-[350px] justify-center sm:justify-start mt-2 sm:mt-0"
+            >
               <svg
                 class="mr-1 sm:mr-[2px] flex-shrink-0 w-6 h-6 sm:w-8 sm:h-8 svg-flag"
                 xmlns="http://www.w3.org/2000/svg"
@@ -297,10 +326,12 @@
                   fill="#f4d24b"
                 ></path>
               </svg>
-              <p class="inline-block text-sm sm:text-base">
+              <p
+                class="inline-block text-sm sm:text-base 1xl:text-2xl whitespace-nowrap"
+              >
                 PH:
                 <span
-                  class="time inline-block w-[80px] sm:w-[90px] 1xl:w-[150px]"
+                  class="time inline-block w-[80px] sm:w-[90px] 1xl:w-[200px]"
                   id="time-ph"
                 ></span>
               </p>
@@ -323,7 +354,7 @@
           >
             <ul
               id="timer-modes"
-              class="flex gap-1 sm:gap-2 text-sm sm:text-base 1xl:text-2xl font-semibold flex-wrap justify-center"
+              class="flex gap-1 sm:gap-2 text-sm sm:text-base 1xl:text-3xl font-semibold flex-wrap justify-center"
             >
               <li
                 work
@@ -347,8 +378,15 @@
                 LongBreak
               </li>
             </ul>
-            <div class="time font-bold text-3xl sm:text-4xl 1xl:text-6xl min-h-[3rem] sm:min-h-0 flex items-center justify-center" id="timer">25:00</div>
-            <div class="relative size-[80px] sm:size-[100px] 1xl:size-[200px] overflow-hidden">
+            <div
+              class="time font-bold text-3xl sm:text-4xl 1xl:text-6xl min-h-[3rem] sm:min-h-0 flex items-center justify-center"
+              id="timer"
+            >
+              25:00
+            </div>
+            <div
+              class="relative size-[80px] sm:size-[100px] 1xl:size-[200px] overflow-hidden"
+            >
               <!-- First Lottie -->
               <dotlottie-wc
                 id="lottie1"
@@ -367,7 +405,9 @@
                 loop
               ></dotlottie-wc>
             </div>
-            <div class="relative w-full flex items-center justify-center gap-3 sm:gap-4">
+            <div
+              class="relative w-full flex items-center justify-center gap-3 sm:gap-4"
+            >
               <button
                 class="cursor-pointer bg-brand-btn/70 border-t-2 border-r-2 1xl:border-r-4 border-l-2 1xl:border-l-4 border-b-5 1xl:border-b-6 border-brand-text text-brand-text font-semibold px-6 py-3 sm:px-5 sm:py-2 1xl:px-10 1xl:py-4 rounded-lg hover:bg-brand-btn/40 active:bg-brand-btn/50 transition-colors duration-300 touch-manipulation min-h-[48px] min-w-[48px] sm:min-h-0 sm:min-w-0"
                 id="startButton"
@@ -376,10 +416,12 @@
                 <i class="fa-solid fa-play text-lg sm:text-base"></i>
               </button>
 
-              <div
-                class="flex gap-4 sm:gap-3 text-xl sm:text-lg 1xl:text-[1.5rem]"
-              >
-                <i class="fa-solid fa-gear cursor-pointer hover:opacity-80 active:opacity-60 touch-manipulation min-w-[48px] min-h-[48px] sm:min-w-0 sm:min-h-0 flex items-center justify-center" id="gearIcon" aria-label="Settings"></i>
+              <div class="flex gap-4 sm:gap-3 text-xl sm:text-lg 1xl:text-2xl">
+                <i
+                  class="fa-solid fa-gear cursor-pointer hover:opacity-80 active:opacity-60 touch-manipulation min-w-[48px] min-h-[48px] sm:min-w-0 sm:min-h-0 flex items-center justify-center"
+                  id="gearIcon"
+                  aria-label="Settings"
+                ></i>
                 <i
                   class="fa-solid fa-rotate-right cursor-pointer hover:opacity-80 active:opacity-60 touch-manipulation min-w-[48px] min-h-[48px] sm:min-w-0 sm:min-h-0 flex items-center justify-center"
                   id="resetButton"
