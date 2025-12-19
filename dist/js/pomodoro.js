@@ -15,6 +15,9 @@ let activeMode = "work";
 let audio = "default";
 let audioRepeatCount = 1;
 
+// Expose pause state globally for todo.js
+window.pause = pause;
+
 let pomoSettings = {
   work: "25:00",
   shortbreak: "5:00",
@@ -67,12 +70,22 @@ startBtn.addEventListener("click", function () {
     startTimer();
     pauseAndPlay();
     pause = true;
+    window.pause = true; // Sync with global
     lottieAnimate(true);
+    // Update todo buttons when timer starts
+    if (typeof window.updateTodoButtons === "function") {
+      window.updateTodoButtons();
+    }
   } else {
     clearTimeInterval(timer);
     lottieAnimate(false);
     pauseAndPlay();
     pause = false;
+    window.pause = false; // Sync with global
+    // Update todo buttons when timer pauses
+    if (typeof window.updateTodoButtons === "function") {
+      window.updateTodoButtons();
+    }
   }
 });
 
@@ -88,6 +101,13 @@ resetBtn.addEventListener("click", function () {
   clearTimeInterval();
   setTimeout(() => resetBtn.classList.remove("rotate"), 300);
   renderTimer(activeMode);
+  // Clear active todo and update buttons when reset
+  if (window.activeTodoIndex !== undefined) {
+    window.activeTodoIndex = null;
+  }
+  if (typeof window.updateTodoButtons === "function") {
+    window.updateTodoButtons();
+  }
 });
 
 // Starts the countdown timer
@@ -106,11 +126,21 @@ function startTimer() {
       if (timeLeft <= 0) {
         clearTimeInterval();
         renderTimer("work");
+        // Clear active todo when timer finishes
+        if (window.activeTodoIndex !== undefined) {
+          window.activeTodoIndex = null;
+        }
+        if (typeof window.updateTodoButtons === "function") {
+          window.updateTodoButtons();
+        }
         notifyUser("Time's up!", "Take a break 🎉", audio, audioRepeatCount);
       }
     }, 1000);
   }
 }
+
+// Expose startTimer globally for todo.js
+window.startTimer = startTimer;
 
 function clearTimeInterval() {
   clearInterval(timer);
@@ -124,6 +154,7 @@ function renderTimer(mode) {
   timerElement.textContent = pomoSettings[mode];
   let minutes = parseInt(pomoSettings[mode].split(":")[0], 10);
   pause = false;
+  window.pause = false; // Sync with global
   setTime(minutes);
   clearTimeInterval();
   icon.classList.remove("fa-pause");
@@ -136,8 +167,19 @@ function renderTimer(mode) {
   });
 
   // Add highlight to the clicked one
-  document.querySelector(`li[${mode}]`).classList.add("bg-brand-btn/40");
+  const modeElement = document.querySelector(`li[${mode}]`);
+  if (modeElement) {
+    modeElement.classList.add("bg-brand-btn/40");
+  }
+
+  // Update todo buttons when timer is reset
+  if (typeof window.updateTodoButtons === "function") {
+    window.updateTodoButtons();
+  }
 }
+
+// Expose renderTimer globally for todo.js
+window.renderTimer = renderTimer;
 
 function changeBackgroundColor(mode) {
   const removeBg = () => {

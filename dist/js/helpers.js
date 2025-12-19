@@ -25,17 +25,6 @@ function capitalizeFirstLetter(val) {
   }
 
   function initSVGOptimization() {
-    // Force GPU acceleration for SVGs
-    const svgs = document.querySelectorAll('.svg-flag');
-    svgs.forEach(svg => {
-      // Ensure SVGs are rendered with GPU acceleration
-      svg.style.transform = 'translateZ(0)';
-      svg.style.willChange = 'transform';
-      
-      // Mark as loaded to prevent layout shifts
-      svg.setAttribute('data-loaded', 'true');
-    });
-
     // Optimize Lottie animations
     const lottieElements = document.querySelectorAll('dotlottie-wc');
     lottieElements.forEach(el => {
