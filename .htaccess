@@ -1,21 +1,11 @@
 # Enable rewrite engine
-
 RewriteEngine On
 
 # Serve dist/index.html as the homepage
-
 DirectoryIndex dist/index.html
 
-# Redirect all requests to the dist folder if they are not already there
-
+# Route all requests to the dist folder if the file doesn't exist in root
 RewriteCond %{REQUEST_URI} !^/dist/
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.\*)$ dist/$1 [L]
-
-# Optional: prevent direct access to the dist folder in URL
-
-RewriteCond %{THE*REQUEST} /dist/([^\s?]*) [NC]
-RewriteRule ^dist/(.\_)$ /$1 [L,R=301]
-
-.env
+RewriteRule ^(.*)$ dist/$1 [L]
