@@ -32,6 +32,8 @@ let pomoAudios = {
 };
 
 let currentAlarm;
+let pendingAlarm = null; // Track alarm that should play when tab becomes visible
+let timerEndTime = null; // Store when the timer should finish
 
 // -------------------------
 // Notifications + Audio
@@ -44,8 +46,13 @@ function notifyUser(title, body, soundKey, repeat = 1) {
     Notification.requestPermission();
   }
 
-  // 2. Audio Alarm
-  playAlarm(soundKey, repeat);
+  // 2. Audio Alarm - play immediately if tab is visible, otherwise queue it
+  if (document.visibilityState === "visible") {
+    playAlarm(soundKey, repeat);
+  } else {
+    // Tab is hidden, queue the alarm to play when tab becomes visible
+    pendingAlarm = { soundKey, repeat };
+  }
 
   // 3. Title flash fallback
   const oldTitle = document.title;
@@ -110,32 +117,47 @@ resetBtn.addEventListener("click", function () {
   }
 });
 
+// Function to handle timer completion
+function handleTimerCompletion() {
+  clearTimeInterval();
+  timerEndTime = null; // Clear the end time
+  renderTimer("work");
+  // Clear active todo when timer finishes
+  if (window.activeTodoIndex !== undefined) {
+    window.activeTodoIndex = null;
+  }
+  if (typeof window.updateTodoButtons === "function") {
+    window.updateTodoButtons();
+  }
+  notifyUser("Time's up!", "Take a break 🎉", audio, audioRepeatCount);
+}
+
 // Starts the countdown timer
 function startTimer() {
   if (!timer && timeLeft > 0) {
     // Mark the "finish time" in ms
-    const endTime = Date.now() + timeLeft * 1000;
+    timerEndTime = Date.now() + timeLeft * 1000;
+    let lastDisplayedSeconds = -1;
+
+    // Update display immediately
+    updateDisplay();
+    lastDisplayedSeconds = timeLeft;
 
     timer = setInterval(() => {
       const now = Date.now();
-      // Recalculate remaining seconds
-      timeLeft = Math.max(0, Math.round((endTime - now) / 1000));
+      // Recalculate remaining seconds based on actual elapsed time
+      timeLeft = Math.max(0, Math.round((timerEndTime - now) / 1000));
 
-      updateDisplay();
+      // Only update display when seconds actually change (more efficient)
+      if (timeLeft !== lastDisplayedSeconds) {
+        updateDisplay();
+        lastDisplayedSeconds = timeLeft;
+      }
 
       if (timeLeft <= 0) {
-        clearTimeInterval();
-        renderTimer("work");
-        // Clear active todo when timer finishes
-        if (window.activeTodoIndex !== undefined) {
-          window.activeTodoIndex = null;
-        }
-        if (typeof window.updateTodoButtons === "function") {
-          window.updateTodoButtons();
-        }
-        notifyUser("Time's up!", "Take a break 🎉", audio, audioRepeatCount);
+        handleTimerCompletion();
       }
-    }, 1000);
+    }, 100); // Check frequently for accuracy, but only update display when needed
   }
 }
 
@@ -145,6 +167,7 @@ window.startTimer = startTimer;
 function clearTimeInterval() {
   clearInterval(timer);
   timer = null;
+  timerEndTime = null; // Clear end time when timer is cleared
 }
 
 //Update displayTime
@@ -209,7 +232,11 @@ function updateDisplay() {
     seconds
   ).padStart(2, "0")}`;
   timerElement.textContent = currentTime;
-  document.title = `${capitalizeFirstLetter(activeMode)}: ${currentTime}`;
+
+  // Only update title if it's not flashing (during notification)
+  if (!document.title.includes("⏰")) {
+    document.title = `${capitalizeFirstLetter(activeMode)}: ${currentTime}`;
+  }
 }
 
 //Set time
@@ -235,21 +262,60 @@ function playAlarm(audioKey, repeatCount = 1) {
   const audioEl = new Audio(soundFile);
   let playsDone = 0;
 
+  // Set volume to ensure it's audible
+  audioEl.volume = 1.0;
+
   audioEl.onended = () => {
     playsDone++;
     if (playsDone < repeatCount) {
       audioEl.currentTime = 0;
-      audioEl.play();
+      audioEl.play().catch((err) => {
+        console.log("Audio replay blocked:", err);
+      });
     } else {
       audioEl.onended = null;
       currentAlarm = null;
     }
   };
 
+  // Handle errors during loading
+  audioEl.onerror = (err) => {
+    console.error("Audio loading error:", err);
+    // Fallback: show notification if audio fails
+    if (Notification.permission === "granted") {
+      new Notification("Time's up!", { body: "Take a break 🎉" });
+    }
+  };
+
   currentAlarm = audioEl;
-  audioEl.play().catch((err) => {
-    console.log("Audio blocked by browser:", err);
-  });
+
+  // Try to play - use a small delay if called from visibility change to ensure tab is active
+  const tryPlay = () => {
+    const playPromise = audioEl.play();
+    if (playPromise !== undefined) {
+      playPromise.catch((err) => {
+        console.log("Audio play blocked:", err);
+        // Retry once after a short delay
+        setTimeout(() => {
+          audioEl.play().catch((retryErr) => {
+            console.log("Audio retry also blocked:", retryErr);
+            // If audio fails, at least ensure notification shows
+            if (Notification.permission === "granted") {
+              new Notification("Time's up!", { body: "Take a break 🎉" });
+            }
+          });
+        }, 100);
+      });
+    }
+  };
+
+  // If audio is already loaded, play immediately, otherwise wait for canplay
+  if (audioEl.readyState >= 2) {
+    tryPlay();
+  } else {
+    audioEl.addEventListener("canplay", tryPlay, { once: true });
+    audioEl.load();
+  }
 }
 
 //For lottie's animation
@@ -265,6 +331,66 @@ function lottieAnimate(bool) {
   }
   showingFirst = !showingFirst;
 }
+
+// Function to check and handle timer completion when tab becomes visible
+function checkTimerOnVisibility() {
+  // Small delay to ensure tab is fully active and browser allows audio
+  setTimeout(() => {
+    // Check if timer should have finished while tab was hidden
+    // This handles the case where the interval was throttled and never fired
+    if (timerEndTime && Date.now() >= timerEndTime) {
+      // Timer finished while tab was hidden
+      // Check if we have a pending alarm (interval fired but alarm was queued)
+      if (pendingAlarm) {
+        // Interval fired, alarm was queued, now play it
+        playAlarm(pendingAlarm.soundKey, pendingAlarm.repeat);
+        pendingAlarm = null;
+      } else if (timer) {
+        // Interval never fired, timer is still "running" but time has passed
+        // Force completion now
+        handleTimerCompletion();
+      }
+      return;
+    }
+
+    // Play any pending alarm if timer hasn't finished yet
+    if (pendingAlarm) {
+      playAlarm(pendingAlarm.soundKey, pendingAlarm.repeat);
+      pendingAlarm = null;
+      return;
+    }
+
+    // Update display immediately when tab becomes visible to fix any drift
+    if (timer && timerEndTime) {
+      const now = Date.now();
+      const calculatedTimeLeft = Math.max(
+        0,
+        Math.round((timerEndTime - now) / 1000)
+      );
+
+      // If calculated time is 0 or less but timer is still running, force completion
+      if (calculatedTimeLeft <= 0) {
+        handleTimerCompletion();
+        return;
+      }
+
+      timeLeft = calculatedTimeLeft;
+      updateDisplay();
+    }
+  }, 50); // Small delay to ensure browser allows audio after tab switch
+}
+
+// Handle Page Visibility - play pending alarm when tab becomes visible
+document.addEventListener("visibilitychange", () => {
+  if (document.visibilityState === "visible") {
+    checkTimerOnVisibility();
+  }
+});
+
+// Also check on window focus as a backup
+window.addEventListener("focus", () => {
+  checkTimerOnVisibility();
+});
 
 // Request Notification Permission on Page Load
 document.addEventListener("DOMContentLoaded", () => {
