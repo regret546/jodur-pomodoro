@@ -5,6 +5,8 @@ const emptyState = document.querySelector("#emptyState");
 
 let todos = [];
 let activeTodoIndex = null; // Track which todo has active timer
+let draggedElement = null; // Track element being dragged
+let draggedIndex = null; // Track index of dragged element
 
 // Load todos from localStorage on page load
 function loadTodos() {
@@ -63,10 +65,107 @@ function renderTodos() {
     
     const li = document.createElement("li");
     li.className =
-      "flex flex-col gap-2 bg-brand-background p-2 sm:p-3 rounded-md transition-colors duration-300 group";
+      "flex flex-col gap-2 bg-brand-background p-2 sm:p-3 rounded-md transition-colors duration-300 group cursor-move";
+    li.draggable = true;
+    li.setAttribute("data-index", index);
+    
+    // Drag event handlers
+    li.addEventListener("dragstart", (e) => {
+      // Don't start drag if clicking on interactive elements
+      if (e.target.tagName === "BUTTON" || e.target.tagName === "INPUT" || e.target.closest("button") || e.target.closest("input")) {
+        e.preventDefault();
+        return;
+      }
+      draggedElement = li;
+      draggedIndex = index;
+      li.classList.add("opacity-50");
+      e.dataTransfer.effectAllowed = "move";
+      e.dataTransfer.setData("text/html", li.innerHTML);
+    });
+    
+    li.addEventListener("dragend", (e) => {
+      li.classList.remove("opacity-50");
+      // Remove drag over styling from all items
+      document.querySelectorAll("#todoList li").forEach(item => {
+        item.classList.remove("border-brand-btn", "border-2");
+      });
+    });
+    
+    li.addEventListener("dragover", (e) => {
+      e.preventDefault();
+      e.dataTransfer.dropEffect = "move";
+      
+      if (li !== draggedElement) {
+        const rect = li.getBoundingClientRect();
+        const next = (e.clientY - rect.top) / (rect.bottom - rect.top) < 0.5;
+        
+        if (next) {
+          todoList.insertBefore(draggedElement, li);
+        } else {
+          todoList.insertBefore(draggedElement, li.nextSibling);
+        }
+      }
+    });
+    
+    li.addEventListener("dragenter", (e) => {
+      e.preventDefault();
+      if (li !== draggedElement) {
+        li.classList.add("border-brand-btn", "border-2", "bg-brand-btn/10");
+      }
+    });
+    
+    li.addEventListener("dragleave", (e) => {
+      // Only remove styling if we're actually leaving the element
+      if (!li.contains(e.relatedTarget)) {
+        li.classList.remove("border-brand-btn", "border-2", "bg-brand-btn/10");
+      }
+    });
+    
+    li.addEventListener("drop", (e) => {
+      e.preventDefault();
+      li.classList.remove("border-brand-btn", "border-2", "bg-brand-btn/10");
+      
+      if (draggedElement && draggedElement !== li && draggedIndex !== null) {
+        // Get the new index based on position in DOM
+        const allItems = Array.from(todoList.children);
+        const newIndex = allItems.indexOf(draggedElement);
+        
+        if (newIndex !== draggedIndex && newIndex !== -1) {
+          // Reorder todos array
+          const draggedTodo = todos[draggedIndex];
+          todos.splice(draggedIndex, 1);
+          todos.splice(newIndex, 0, draggedTodo);
+          
+          // Update activeTodoIndex if needed
+          if (activeTodoIndex === draggedIndex) {
+            activeTodoIndex = newIndex;
+            window.activeTodoIndex = newIndex;
+          } else if (draggedIndex < activeTodoIndex && newIndex >= activeTodoIndex) {
+            activeTodoIndex = activeTodoIndex - 1;
+            window.activeTodoIndex = activeTodoIndex - 1;
+          } else if (draggedIndex > activeTodoIndex && newIndex <= activeTodoIndex) {
+            activeTodoIndex = activeTodoIndex + 1;
+            window.activeTodoIndex = activeTodoIndex + 1;
+          }
+          
+          saveTodos();
+          renderTodos();
+        }
+      }
+      
+      // Reset drag state
+      draggedElement = null;
+      draggedIndex = null;
+    });
     
     const topRow = document.createElement("div");
     topRow.className = "flex items-center gap-2 sm:gap-3";
+    
+    // Drag handle icon
+    const dragHandle = document.createElement("div");
+    dragHandle.className = "cursor-move text-brand-text/40 hover:text-brand-text/60 transition-colors flex-shrink-0";
+    dragHandle.innerHTML = '<i class="fa-solid fa-grip-vertical text-xs sm:text-sm"></i>';
+    dragHandle.setAttribute("aria-label", "Drag to reorder");
     
     // Checkbox
     const checkbox = document.createElement("input");
@@ -135,6 +234,7 @@ function renderTodos() {
       }
     });
 
+    topRow.appendChild(dragHandle);
     topRow.appendChild(checkbox);
     topRow.appendChild(textContainer);
     topRow.appendChild(pomoBtn);
@@ -347,6 +447,22 @@ function updateTodoButtons() {
 
 // Expose updateTodoButtons globally for pomodoro.js
 window.updateTodoButtons = updateTodoButtons;
+
+// Helper function to get element after which to insert dragged element
+function getDragAfterElement(container, y) {
+  const draggableElements = [...container.querySelectorAll("li:not(.dragging)")];
+  
+  return draggableElements.reduce((closest, child) => {
+    const box = child.getBoundingClientRect();
+    const offset = y - box.top - box.height / 2;
+    
+    if (offset < 0 && offset > closest.offset) {
+      return { offset: offset, element: child };
+    } else {
+      return closest;
+    }
+  }, { offset: Number.NEGATIVE_INFINITY }).element;
+}
 
 // Format timestamp for display
 function formatTimestamp(date) {
