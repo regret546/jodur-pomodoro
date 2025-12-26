@@ -65,29 +65,55 @@ function renderTodos() {
     
     const li = document.createElement("li");
     li.className =
-      "flex flex-col gap-2 bg-brand-background p-2 sm:p-3 rounded-md transition-colors duration-300 group cursor-move";
+      "flex flex-col gap-2 bg-brand-background p-2 sm:p-3 rounded-md transition-colors duration-300 group";
     li.draggable = true;
     li.setAttribute("data-index", index);
+    // Add cursor-move style only when not hovering over interactive elements
+    li.style.cursor = "move";
+    
+    const topRow = document.createElement("div");
+    topRow.className = "flex items-center gap-2 sm:gap-3";
+    
+    // Drag handle icon (create before event listeners so it can be referenced)
+    const dragHandle = document.createElement("div");
+    dragHandle.className = "cursor-move text-brand-text/40 hover:text-brand-text/60 transition-colors flex-shrink-0 touch-none select-none";
+    dragHandle.innerHTML = '<i class="fa-solid fa-grip-vertical text-xs sm:text-sm"></i>';
+    dragHandle.setAttribute("aria-label", "Drag to reorder");
+    dragHandle.setAttribute("draggable", "false");
     
     // Drag event handlers
     li.addEventListener("dragstart", (e) => {
-      // Don't start drag if clicking on interactive elements
-      if (e.target.tagName === "BUTTON" || e.target.tagName === "INPUT" || e.target.closest("button") || e.target.closest("input")) {
+      // Don't start drag if clicking directly on buttons or inputs (but allow from drag handle)
+      const clickedButton = e.target.closest("button");
+      const clickedInput = e.target.closest("input");
+      const isDragHandle = e.target === dragHandle || e.target.closest(".cursor-move") === dragHandle;
+      
+      // Allow drag from drag handle or empty space, but not from buttons/inputs
+      if (clickedButton && !isDragHandle) {
         e.preventDefault();
-        return;
+        e.stopPropagation();
+        return false;
       }
+      
+      if (clickedInput) {
+        e.preventDefault();
+        e.stopPropagation();
+        return false;
+      }
+      
       draggedElement = li;
       draggedIndex = index;
-      li.classList.add("opacity-50");
+      li.classList.add("opacity-50", "dragging");
       e.dataTransfer.effectAllowed = "move";
-      e.dataTransfer.setData("text/html", li.innerHTML);
+      e.dataTransfer.setData("text/plain", index.toString());
+      e.dataTransfer.setData("application/json", JSON.stringify({ index: index }));
     });
     
     li.addEventListener("dragend", (e) => {
-      li.classList.remove("opacity-50");
+      li.classList.remove("opacity-50", "dragging");
       // Remove drag over styling from all items
       document.querySelectorAll("#todoList li").forEach(item => {
-        item.classList.remove("border-brand-btn", "border-2");
+        item.classList.remove("border-brand-btn", "border-2", "bg-brand-btn/10");
       });
     });
     
@@ -95,14 +121,21 @@ function renderTodos() {
       e.preventDefault();
       e.dataTransfer.dropEffect = "move";
       
-      if (li !== draggedElement) {
+      if (draggedElement && li !== draggedElement) {
         const rect = li.getBoundingClientRect();
         const next = (e.clientY - rect.top) / (rect.bottom - rect.top) < 0.5;
         
-        if (next) {
-          todoList.insertBefore(draggedElement, li);
-        } else {
-          todoList.insertBefore(draggedElement, li.nextSibling);
+        const dragging = document.querySelector(".dragging");
+        if (dragging) {
+          if (next) {
+            if (dragging.nextSibling !== li) {
+              todoList.insertBefore(dragging, li);
+            }
+          } else {
+            if (dragging !== li.nextSibling) {
+              todoList.insertBefore(dragging, li.nextSibling);
+            }
+          }
         }
       }
     });
@@ -157,15 +190,6 @@ function renderTodos() {
       draggedElement = null;
       draggedIndex = null;
     });
-    
-    const topRow = document.createElement("div");
-    topRow.className = "flex items-center gap-2 sm:gap-3";
-    
-    // Drag handle icon
-    const dragHandle = document.createElement("div");
-    dragHandle.className = "cursor-move text-brand-text/40 hover:text-brand-text/60 transition-colors flex-shrink-0";
-    dragHandle.innerHTML = '<i class="fa-solid fa-grip-vertical text-xs sm:text-sm"></i>';
-    dragHandle.setAttribute("aria-label", "Drag to reorder");
     
     // Checkbox
     const checkbox = document.createElement("input");

@@ -363,11 +363,17 @@
   .transform {
     transform: var(--tw-rotate-x,) var(--tw-rotate-y,) var(--tw-rotate-z,) var(--tw-skew-x,) var(--tw-skew-y,);
   }
+  .cursor-move {
+    cursor: move;
+  }
   .cursor-pointer {
     cursor: pointer;
   }
   .touch-manipulation {
     touch-action: manipulation;
+  }
+  .touch-none {
+    touch-action: none;
   }
   .resize {
     resize: both;
@@ -494,6 +500,12 @@
   }
   .bg-brand-btn {
     background-color: var(--color-brand-btn);
+  }
+  .bg-brand-btn\/10 {
+    background-color: color-mix(in srgb, hsl(272, 100%, 85%) 10%, transparent);
+    @supports (color: color-mix(in lab, red, red)) {
+      background-color: color-mix(in oklab, var(--color-brand-btn) 10%, transparent);
+    }
   }
   .bg-brand-btn\/40 {
     background-color: color-mix(in srgb, hsl(272, 100%, 85%) 40%, transparent);
@@ -637,6 +649,9 @@
   .opacity-0 {
     opacity: 0%;
   }
+  .opacity-50 {
+    opacity: 50%;
+  }
   .opacity-70 {
     opacity: 70%;
   }
@@ -683,6 +698,10 @@
     --tw-ease: var(--ease-in-out);
     transition-timing-function: var(--ease-in-out);
   }
+  .select-none {
+    -webkit-user-select: none;
+    user-select: none;
+  }
   .group-hover\:opacity-100 {
     &:is(:where(.group):hover *) {
       @media (hover: hover) {
@@ -696,6 +715,16 @@
         background-color: color-mix(in srgb, hsl(272, 100%, 85%) 40%, transparent);
         @supports (color: color-mix(in lab, red, red)) {
           background-color: color-mix(in oklab, var(--color-brand-btn) 40%, transparent);
+        }
+      }
+    }
+  }
+  .hover\:text-brand-text\/60 {
+    &:hover {
+      @media (hover: hover) {
+        color: color-mix(in srgb, hsl(269, 92%, 95%) 60%, transparent);
+        @supports (color: color-mix(in lab, red, red)) {
+          color: color-mix(in oklab, var(--color-brand-text) 60%, transparent);
         }
       }
     }
