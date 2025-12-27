@@ -65,7 +65,7 @@ function renderTodos() {
     
     const li = document.createElement("li");
     li.className =
-      "flex flex-col gap-2 bg-brand-background p-2 sm:p-3 rounded-md transition-colors duration-300 group";
+      "todo-item flex flex-col gap-2 bg-brand-background p-2 sm:p-3 rounded-md transition-colors duration-300 group";
     li.draggable = true;
     li.setAttribute("data-index", index);
     // Add cursor-move style only when not hovering over interactive elements
@@ -103,17 +103,17 @@ function renderTodos() {
       
       draggedElement = li;
       draggedIndex = index;
-      li.classList.add("opacity-50", "dragging");
+      li.classList.add("dragging");
       e.dataTransfer.effectAllowed = "move";
       e.dataTransfer.setData("text/plain", index.toString());
       e.dataTransfer.setData("application/json", JSON.stringify({ index: index }));
     });
     
     li.addEventListener("dragend", (e) => {
-      li.classList.remove("opacity-50", "dragging");
+      li.classList.remove("dragging");
       // Remove drag over styling from all items
       document.querySelectorAll("#todoList li").forEach(item => {
-        item.classList.remove("border-brand-btn", "border-2", "bg-brand-btn/10");
+        item.classList.remove("border-brand-btn", "border-2", "bg-brand-btn/10", "drag-over");
       });
     });
     
@@ -143,20 +143,20 @@ function renderTodos() {
     li.addEventListener("dragenter", (e) => {
       e.preventDefault();
       if (li !== draggedElement) {
-        li.classList.add("border-brand-btn", "border-2", "bg-brand-btn/10");
+        li.classList.add("border-brand-btn", "border-2", "bg-brand-btn/10", "drag-over");
       }
     });
     
     li.addEventListener("dragleave", (e) => {
       // Only remove styling if we're actually leaving the element
       if (!li.contains(e.relatedTarget)) {
-        li.classList.remove("border-brand-btn", "border-2", "bg-brand-btn/10");
+        li.classList.remove("border-brand-btn", "border-2", "bg-brand-btn/10", "drag-over");
       }
     });
     
     li.addEventListener("drop", (e) => {
       e.preventDefault();
-      li.classList.remove("border-brand-btn", "border-2", "bg-brand-btn/10");
+      li.classList.remove("border-brand-btn", "border-2", "bg-brand-btn/10", "drag-over");
       
       if (draggedElement && draggedElement !== li && draggedIndex !== null) {
         // Get the new index based on position in DOM
@@ -196,17 +196,23 @@ function renderTodos() {
     checkbox.type = "checkbox";
     checkbox.checked = todo.completed;
     checkbox.className =
-      "w-5 h-5 sm:w-6 sm:h-6 cursor-pointer accent-brand-btn flex-shrink-0";
+      "todo-checkbox w-5 h-5 sm:w-6 sm:h-6 cursor-pointer accent-brand-btn flex-shrink-0";
     checkbox.disabled = isTimerRunning; // Disable when timer is running
-    checkbox.addEventListener("change", () => toggleTodo(index));
+    checkbox.addEventListener("change", () => {
+      li.classList.add("completing");
+      setTimeout(() => {
+        toggleTodo(index);
+        li.classList.remove("completing");
+      }, 200);
+    });
 
     // Todo text container
     const textContainer = document.createElement("div");
-    textContainer.className = "flex-1 flex flex-col gap-1";
+    textContainer.className = "todo-text-container flex-1 flex flex-col gap-1";
     
     // Todo text
     const text = document.createElement("span");
-    text.className = `text-sm sm:text-base ${
+    text.className = `todo-text text-sm sm:text-base ${
       todo.completed
         ? "line-through text-brand-text/50"
         : "text-brand-text"
@@ -230,7 +236,7 @@ function renderTodos() {
     // Pomodoro button to start timer (always work mode for todos)
     const pomoBtn = document.createElement("button");
     pomoBtn.className =
-      "opacity-70 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-300 bg-brand-btn/70 border-t-2 border-r-2 border-l-2 border-b-5 border-brand-text text-brand-text font-semibold px-2 py-1 sm:px-3 sm:py-1.5 rounded-lg hover:bg-brand-btn/40 active:bg-brand-btn/50 transition-colors duration-300 touch-manipulation flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed";
+      "todo-button opacity-70 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-300 bg-brand-btn/70 border-t-2 border-r-2 border-l-2 border-b-5 border-brand-text text-brand-text font-semibold px-2 py-1 sm:px-3 sm:py-1.5 rounded-lg hover:bg-brand-btn/40 active:bg-brand-btn/50 transition-colors duration-300 touch-manipulation flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed";
     pomoBtn.disabled = todo.completed || isTimerRunning;
     pomoBtn.innerHTML = isTimerRunning 
       ? '<i class="fa-solid fa-pause text-xs sm:text-sm"></i>'
@@ -248,13 +254,16 @@ function renderTodos() {
     // Delete button
     const deleteBtn = document.createElement("button");
     deleteBtn.className =
-      "opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-red-500 hover:text-red-600 active:text-red-700 touch-manipulation min-w-[32px] min-h-[32px] sm:min-w-0 sm:min-h-0 flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed";
+      "todo-button opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-red-500 hover:text-red-600 active:text-red-700 touch-manipulation min-w-[32px] min-h-[32px] sm:min-w-0 sm:min-h-0 flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed";
     deleteBtn.disabled = isTimerRunning; // Disable when timer is running
     deleteBtn.innerHTML = '<i class="fa-solid fa-trash text-sm sm:text-base"></i>';
     deleteBtn.setAttribute("aria-label", "Delete todo");
     deleteBtn.addEventListener("click", () => {
       if (!isTimerRunning) {
-        deleteTodo(index);
+        li.classList.add("removing");
+        setTimeout(() => {
+          deleteTodo(index);
+        }, 400);
       }
     });
 
@@ -286,6 +295,18 @@ function addTodo() {
   todoInput.value = "";
   saveTodos();
   renderTodos();
+  
+  // Scroll to the newly added todo and add a highlight animation
+  setTimeout(() => {
+    const newTodo = todoList.lastElementChild;
+    if (newTodo) {
+      newTodo.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      newTodo.style.animation = "bounce 0.5s ease-out";
+      setTimeout(() => {
+        newTodo.style.animation = "";
+      }, 500);
+    }
+  }, 50);
 }
 
 // Toggle todo completion
@@ -305,6 +326,10 @@ function deleteTodo(index) {
   todos.splice(index, 1);
   saveTodos();
   renderTodos();
+  // Scroll to top if list is empty
+  if (todos.length === 0) {
+    todoList.scrollTop = 0;
+  }
 }
 
 // Edit todo (double-click to edit)
